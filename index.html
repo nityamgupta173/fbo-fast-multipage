@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FedEx FAST | Sign in</title>
+<meta name="description" content="Allocate on-account funds to open FedEx invoices.">
+<!-- Google tag (gtag.js): replace G-XXXXXXXXXX with your GA4 Measurement ID (same ID in every page) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="screen active" id="s-login">
+  <div class="login-wrap">
+    <div class="login-header"><div class="brand"><div class="fedex-logo"><span class="fed">Fed</span><span class="ex">Ex</span></div><div class="brand-divider"></div><div class="brand-sub">FAST</div></div></div>
+    <form class="login-card" id="login-form">
+      <h1>Allocate Funds On-Account</h1>
+      <p>Enter your FedEx account number to view your available funds and allocate them to open invoices.</p>
+      <div class="field">
+        <label for="acct-input">Account Number</label>
+        <input type="text" id="acct-input" placeholder="e.g. 9876543210" maxlength="12" inputmode="numeric" autocomplete="off">
+        <div class="hint">Tip: enter any number to proceed</div>
+      </div>
+      <button class="btn-main" type="submit">Continue
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+      <div class="login-note">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <div>Your EFT payment has been received. Log in to allocate it to your invoices — no email needed.</div>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script>
+document.getElementById('login-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  resetState();
+  State.loggedIn = true;
+  saveState();
+  track('login');
+  window.location.href = 'dashboard.html';
+});
+</script>
+</body>
+</html>

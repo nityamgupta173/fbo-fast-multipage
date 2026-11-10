@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allocate Funds | FedEx FAST</title>
+<meta name="description" content="Select an EFT payment and allocate it to open invoices.">
+<!-- Google tag (gtag.js): replace G-XXXXXXXXXX with your GA4 Measurement ID (same ID in every page) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="screen active" id="s-app">
+  <div id="shell-top"></div>
+  <main class="app-body">
+    <div id="shell-body"></div>
+    <div class="dash-content active">
+    <div class="app-grid" style="padding-top:0">
+      <div class="panels-wrap">
+        <div class="panel">
+          <div class="panel-head"><div class="panel-head-left"><h2>Funds On-Account</h2><p>Select a payment to allocate its funds.</p></div></div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>Payment ID / Dept</th><th>Date Received</th><th>Amount Available</th></tr></thead>
+              <tbody id="eft-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-head-left"><h2>Open Invoices</h2><p>Select invoices to pay with the funds.</p></div>
+            <div class="panel-head-actions">
+              <button class="select-all-btn btn-smart-match" id="smart-match-btn" disabled>Smart Match ✦</button>
+              <button class="select-all-btn" id="sel-all-btn" disabled>Select All</button>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th style="width:40px;padding-right:0;"></th><th>Invoice Details</th><th>Due Date</th><th>Status</th><th>Amount to Apply</th></tr></thead>
+              <tbody id="inv-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="sum-card">
+          <h3>Allocation Summary</h3>
+          <div class="sum-rows">
+            <div class="sum-row"><span class="sl">Funds available</span><span class="sv" id="sum-avail">$0.00</span></div>
+            <div class="sum-row"><span class="sl">Invoices selected</span><span class="sv" id="sum-count">0</span></div>
+            <div class="sum-row" id="sum-tds-row" style="display:none;"><span class="sl">TDS deducted</span><span class="sv" id="sum-tds">$0.00</span></div>
+            <div class="sum-row s-total"><span class="sl">Total to apply</span><span class="sv" id="sum-total">$0.00</span></div>
+            <div class="sum-row s-rem" id="sum-rem-row"><span class="sl">Remaining funds</span><span class="sv" id="sum-remaining">$0.00</span></div>
+          </div>
+          <button class="apply-btn" id="apply-btn" disabled>Select a payment and invoices</button>
+          <div class="err-msg" id="err-msg">Total exceeds available funds</div>
+        </div>
+        <div class="sum-card">
+          <h3 style="border-bottom:2px solid var(--t1);margin-bottom:0.75rem;">Bulk Actions</h3>
+          <p style="font-size:0.8rem;color:var(--t2);margin-bottom:1.25rem;">Upload a CSV or use SFTP to automatically allocate partial payments and reasons to multiple invoices at once.</p>
+          <input type="file" id="csv-upload" style="display:none" accept=".csv">
+          <button class="btn-back" id="csv-btn" style="margin-top:0;padding:0.75rem;font-size:0.85rem;">Upload CSV / SFTP</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+  <div class="site-footer" id="site-footer"></div>
+</div>
+
+<div class="modal-overlay" id="fbo-promo-modal">
+  <div class="modal-content">
+    <div class="promo-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div>
+    <h2>Go Beyond EFT Application</h2>
+    <p>Use FBO for hassle-free payment application, download documents, and manage invoice disputes—all in one centralized dashboard without sending remittance advice.</p>
+    <div class="modal-actions">
+      <button class="btn-modal btn-modal-secondary" id="promo-later">Maybe Later</button>
+      <button class="btn-modal btn-modal-primary" id="promo-switch">Switch to Dashboard</button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="smart-match-modal">
+  <div class="modal-content">
+    <div class="promo-icon" style="background:var(--s2);"><svg viewBox="0 0 24 24" style="stroke:var(--s);"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+    <h2>Smart Match Result</h2>
+    <p id="smart-match-text"></p>
+    <div class="modal-actions" style="flex-direction:column;gap:0.75rem;">
+      <button class="btn-modal btn-modal-primary" id="sm-confirm">Confirm Smart Match</button>
+      <button class="btn-modal btn-modal-secondary" id="sm-cancel" style="border:none;background:transparent;margin-top:-0.5rem;">Cancel</button>
+    </div>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

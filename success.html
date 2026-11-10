@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funds Allocated | FedEx FAST</title>
+<meta name="description" content="Confirmation of your funds allocation.">
+<!-- Google tag (gtag.js): replace G-XXXXXXXXXX with your GA4 Measurement ID (same ID in every page) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="screen active" id="s-success">
+  <div class="success-wrap">
+    <div class="login-header"><div class="brand"><div class="fedex-logo"><span class="fed">Fed</span><span class="ex">Ex</span></div><div class="brand-divider"></div><div class="brand-sub">FAST</div></div></div>
+    <div class="success-card">
+      <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+      <h2>Funds Allocated!</h2>
+      <p>Your funds have been allocated and the ledger updated in real time. A confirmation has been sent to your registered email.</p>
+      <div class="conf-invs"><h4>Invoices Processed</h4><div id="conf-chips"></div></div>
+      <div class="conf-box">
+        <div class="conf-row"><span class="ck">Account</span><span class="cv" id="conf-acct">—</span></div>
+        <div class="conf-row"><span class="ck">Total Applied</span><span class="cv" id="conf-total">—</span></div>
+        <div class="conf-row"><span class="ck">Remaining Funds Balance</span><span class="cv" id="conf-rem">—</span></div>
+        <div class="conf-row"><span class="ck">Reference ID</span><span class="cv accent" id="conf-ref">—</span></div>
+      </div>
+      <a class="btn-back" href="dashboard.html" style="text-decoration:none;">← Allocate More Funds</a>
+    </div>
+  </div>
+</div>
+<script src="js/store.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (!requireLogin()) return;
+  var c = State.confirmation;
+  if (!c) { window.location.replace('dashboard.html'); return; }
+  var check = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+  document.getElementById('conf-chips').innerHTML = c.chips.map(function (x) {
+    return '<span class="conf-inv-chip">' + check + x.id + ' · ' + fmt(x.amount) + '</span>';
+  }).join('');
+  document.getElementById('conf-acct').textContent = c.acct;
+  document.getElementById('conf-total').textContent = fmt(c.total);
+  document.getElementById('conf-rem').textContent = fmt(c.remaining);
+  document.getElementById('conf-ref').textContent = c.ref;
+});
+</script>
+</body>
+</html>

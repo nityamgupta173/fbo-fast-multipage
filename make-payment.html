@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Make a Payment | FedEx FAST</title>
+<meta name="description" content="Ways to pay FedEx invoices: FedEx Billing Online, QR code, and the Import Tool.">
+<!-- Google tag (gtag.js): replace G-XXXXXXXXXX with your GA4 Measurement ID (same ID in every page) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="screen active" id="s-app">
+  <div id="shell-top"></div>
+  <main class="app-body">
+    <div id="shell-body"></div>
+    <div class="payment-options-grid" style="padding-top:0">
+      <div class="payment-opt-card">
+        <div class="payment-opt-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div>
+        <h3>FedEx Billing Online</h3>
+        <p>Manage, view, and pay your FedEx invoices seamlessly online. Use FBO for hassle-free payment application and to download billing documents directly.</p>
+        <a href="https://www.fedex.com/en-us/billing.html" target="_blank" rel="noopener" class="btn-opt btn-opt-primary" data-track="outbound_fbo">Login to FBO</a>
+      </div>
+      <div class="payment-opt-card">
+        <div class="payment-opt-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></div>
+        <h3>Pay via QR Code</h3>
+        <p>Scan the payment QR code printed directly on your physical or digital invoice for a quick, secure, and direct mobile payment gateway.</p>
+        <button class="btn-opt btn-opt-secondary" id="qr-btn">Learn More</button>
+      </div>
+      <div class="payment-opt-card">
+        <div class="payment-opt-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></div>
+        <h3>FedEx Import Tool</h3>
+        <p>Resolve customs duties, taxes, and import-related document requirements instantly online to prevent delays in your international shipments.</p>
+        <a href="https://www.fedex.com/en-in/customs-clearance/import-tool.html" target="_blank" rel="noopener" class="btn-opt btn-opt-secondary" data-track="outbound_import_tool">Access FiT</a>
+      </div>
+    </div>
+  </main>
+  <div class="site-footer" id="site-footer"></div>
+</div>
+<script src="js/store.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (!requireLogin()) return;
+  renderShell('make-payment'); renderFooter();
+  document.querySelectorAll('[data-track]').forEach(function (a) {
+    a.addEventListener('click', function () { track(a.dataset.track); });
+  });
+  document.getElementById('qr-btn').addEventListener('click', function () {
+    track('qr_learn_more');
+    alert('Please scan the QR code located on your recent invoice document.');
+  });
+});
+</script>
+</body>
+</html>

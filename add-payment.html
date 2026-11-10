@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add My Payment | FedEx FAST</title>
+<meta name="description" content="Manually add a payment by Transaction ID.">
+<!-- Google tag (gtag.js): replace G-XXXXXXXXXX with your GA4 Measurement ID (same ID in every page) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="screen active" id="s-app">
+  <div id="shell-top"></div>
+  <main class="app-body">
+    <div id="shell-body"></div>
+    <div class="add-payment-card" style="max-width:680px;">
+      <h2>Manually Add a Payment</h2>
+      <p>If you've made a payment and don't see it, enter the Transaction ID here to add it to your On-Account funds.</p>
+      <form id="add-form">
+        <div class="field">
+          <label for="txn-id-input">Transaction ID</label>
+          <input type="text" id="txn-id-input" placeholder="e.g. FDX12345ABC" autocomplete="off">
+        </div>
+        <button class="btn-main" type="submit" style="width:auto;padding-left:2rem;padding-right:2rem;">Add Payment to Account</button>
+      </form>
+      <div id="add-payment-status" class="add-payment-status" role="status"></div>
+    </div>
+  </main>
+  <div class="site-footer" id="site-footer"></div>
+</div>
+<script src="js/store.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (!requireLogin()) return;
+  renderShell('add-payment'); renderFooter();
+  document.getElementById('add-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = document.getElementById('txn-id-input');
+    var txnId = input.value.trim();
+    if (!txnId) { alert('Please enter a Transaction ID.'); return; }
+    var p = {
+      id: txnId,
+      date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+      amount: Math.floor(Math.random() * 15001 + 5000),
+      department: 'Manual Entry'
+    };
+    State.payments.push(p); saveState(); renderWallet();
+    track('add_payment', { value: p.amount, currency: 'USD' });
+    var s = document.getElementById('add-payment-status');
+    s.textContent = 'Success! Payment ' + p.id + ' for ' + fmt(p.amount) + ' has been added. Redirecting…';
+    s.className = 'add-payment-status success'; s.style.display = 'block';
+    input.value = '';
+    setTimeout(function () { window.location.href = 'dashboard.html'; }, 2000);
+  });
+});
+</script>
+</body>
+</html>

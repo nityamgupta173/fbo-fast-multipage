@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disputes / Under Inquiry | FedEx FAST</title>
+<meta name="description" content="Invoices under inquiry following partial payment.">
+<!-- Google tag (gtag.js): replace G-XXXXXXXXXX with your GA4 Measurement ID (same ID in every page) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="screen active" id="s-app">
+  <div id="shell-top"></div>
+  <main class="app-body">
+    <div id="shell-body"></div>
+    <div class="panel">
+      <div class="panel-head"><div class="panel-head-left"><h2>Disputes / Under Inquiry</h2><p>Invoices actively migrating through the CQL ticket pipeline following partial payment.</p></div></div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead><tr><th>Invoice Details</th><th>Date</th><th>Status</th><th>Applied / Reason</th></tr></thead>
+          <tbody id="disputes-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <div class="site-footer" id="site-footer"></div>
+</div>
+<script src="js/store.js"></script>
+<script>
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+document.addEventListener('DOMContentLoaded', function () {
+  if (!requireLogin()) return;
+  renderShell('disputes'); renderFooter();
+  var tbody = document.getElementById('disputes-tbody');
+  function draw() {
+    var rows = State.disputes.filter(function (d) { return State.view === 'ALL' || d.acctId === State.view; });
+    if (!rows.length) {
+      tbody.innerHTML = '<tr style="cursor:default"><td colspan="4" style="text-align:center;color:var(--t3);padding:2.5rem;">No invoices currently under inquiry.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(function (inv) {
+      return '<tr style="cursor:default">' +
+        '<td data-label="Invoice Details"><div class="item-id">' + esc(inv.id) + '</div><div class="item-secondary">Orig Total: ' + fmt(inv.full) + ' &middot; Acct: ' + esc(inv.acctId) + '</div></td>' +
+        '<td data-label="Date" style="color:var(--t2)">' + esc(inv.date) + '</td>' +
+        '<td data-label="Status"><span class="chip chip-inquiry">' + esc(inv.label) + '</span></td>' +
+        '<td data-label="Applied / Reason" style="text-align:right;"><div style="font-weight:600;color:var(--t1);margin-bottom:0.25rem;">' + fmt(inv.applied) + ' Applied</div>' +
+        '<div style="font-size:0.75rem;color:var(--t3);max-width:240px;margin-left:auto;line-height:1.4;">"' + esc(inv.comment) + '"</div></td></tr>';
+    }).join('');
+  }
+  window.onViewChange = draw;
+  draw();
+});
+</script>
+</body>
+</html>

@@ -13,14 +13,9 @@ A multi-page version of the FedEx FAST (Funds Allocation and Settlement Tool) de
 
 State (payments, invoices, disputes) is kept in `sessionStorage` (`js/store.js`) so it carries across pages.
 
-## Google Analytics 4 setup
+## Google Analytics (via Google Tag Manager)
 
-1. In GA4: **Admin → Data streams → Add stream → Web**. Enter your site URL (e.g. your Vercel / GitHub Pages URL) and copy the **Measurement ID** (`G-XXXXXXXXXX`).
-2. Replace `G-XXXXXXXXXX` in all 6 HTML files (it appears twice per file):
-   ```bash
-   sed -i 's/G-XXXXXXXXXX/G-YOURID123/g' *.html
-   ```
-3. Deploy, then open **Reports → Realtime** and browse the site. Every HTML file sends its own `page_view` with its own `<title>`.
+Every page loads Google Tag Manager container `GTM-TWRBKRT8`. Inside that container (tagmanager.google.com), add a **Google tag** with your GA4 Measurement ID (`G-XXXXXXXXXX`) and a trigger of **All Pages**, then **Submit/Publish** the container. Until a GA4 tag is published in the container, GA4 will show no data.
 
 Note that GA4 only receives data from a **deployed, publicly reachable** site, or from `localhost` while you test. It doesn't track opening the file from disk (`file://`). Realtime can take a minute to show hits, and ad blockers will hide them.
 
